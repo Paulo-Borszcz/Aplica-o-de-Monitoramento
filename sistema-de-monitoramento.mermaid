@@ -1,0 +1,136 @@
+erDiagram
+    COMPUTER {
+        int id PK
+        string hostname UK
+    }
+    SYSTEM_INFO {
+        int id PK
+        int computer_id FK
+        datetime timestamp
+    }
+    HARDWARE {
+        int id PK
+        int system_info_id FK
+        string cpu_model
+        int cpu_cores
+        int cpu_threads
+        float cpu_frequency_ghz
+        float cpu_temperature_celsius
+        float cpu_usage_percent
+    }
+    MEMORY {
+        int id PK
+        int system_info_id FK
+        bigint total_bytes
+        bigint used_bytes
+        bigint free_bytes
+        float usage_percent
+    }
+    DISK {
+        int id PK
+        int system_info_id FK
+        string device
+        string type
+        bigint total_bytes
+        bigint used_bytes
+        bigint free_bytes
+        float usage_percent
+    }
+    GPU {
+        int id PK
+        int system_info_id FK
+        string model
+        bigint memory_bytes
+        float temperature_celsius
+        float usage_percent
+    }
+    MOTHERBOARD {
+        int id PK
+        int system_info_id FK
+        string manufacturer
+        string model
+        string serial_number
+    }
+    BIOS {
+        int id PK
+        int system_info_id FK
+        string vendor
+        string version
+        date release_date
+    }
+    OS {
+        int id PK
+        int system_info_id FK
+        string name
+        string version
+        string architecture
+    }
+    INSTALLED_APP {
+        int id PK
+        int system_info_id FK
+        string name
+        string version
+        date install_date
+    }
+    RUNNING_PROCESS {
+        int id PK
+        int system_info_id FK
+        string name
+        int pid
+        float cpu_usage_percent
+        bigint memory_usage_bytes
+    }
+    NETWORK_INTERFACE {
+        int id PK
+        int system_info_id FK
+        string name
+        string mac_address
+        string status
+        int speed_mbps
+        bigint bytes_sent
+        bigint bytes_recv
+    }
+    IP_ADDRESS {
+        int id PK
+        int network_interface_id FK
+        string address
+    }
+    NETWORK_CONNECTION {
+        int id PK
+        int system_info_id FK
+        string local_address
+        int local_port
+        string remote_address
+        int remote_port
+        string state
+        string process
+    }
+    PERFORMANCE {
+        int id PK
+        int system_info_id FK
+        float cpu_usage_percent
+        float memory_usage_percent
+        float disk_read_bytes_per_sec
+        float disk_write_bytes_per_sec
+        int disk_iops_read
+        int disk_iops_write
+        float network_bytes_sent_per_sec
+        float network_bytes_recv_per_sec
+        float network_packets_sent_per_sec
+        float network_packets_recv_per_sec
+    }
+
+    COMPUTER ||--o{ SYSTEM_INFO : has
+    SYSTEM_INFO ||--o| HARDWARE : has
+    SYSTEM_INFO ||--o| MEMORY : has
+    SYSTEM_INFO ||--o{ DISK : has
+    SYSTEM_INFO ||--o{ GPU : has
+    SYSTEM_INFO ||--o| MOTHERBOARD : has
+    SYSTEM_INFO ||--o| BIOS : has
+    SYSTEM_INFO ||--o| OS : has
+    SYSTEM_INFO ||--o{ INSTALLED_APP : has
+    SYSTEM_INFO ||--o{ RUNNING_PROCESS : has
+    SYSTEM_INFO ||--o{ NETWORK_INTERFACE : has
+    SYSTEM_INFO ||--o{ NETWORK_CONNECTION : has
+    SYSTEM_INFO ||--o| PERFORMANCE : has
+    NETWORK_INTERFACE ||--o{ IP_ADDRESS : has
